@@ -22,8 +22,8 @@ public class decoder {
 		Map<String,String> codeMap= new HashMap<String,String>();
 		List<String> decodedMessage = new ArrayList<>();
 		decoder htd= new decoder();
-		String codeTable="/Users/archana.nagarajan/Documents/UF/SEM2/ADS/Project/sample1/output/code_table.txt";
-		String encodedBin="/Users/archana.nagarajan/Documents/UF/SEM2/ADS/Project/sample1/output/encoded.bin";
+		String codeTable=args[1];
+		String encodedBin=args[0];
 		try(BufferedReader br = new BufferedReader(new FileReader(codeTable))){
 		    String line = br.readLine();
 		    while (line != null) {
@@ -44,7 +44,7 @@ public class decoder {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private List<String> decodeMessage(String encodedBin) {
 		String encodedMessage=readEncodedMessage(encodedBin);
 		List<String> decodedMessage = new ArrayList<>();
@@ -63,23 +63,26 @@ public class decoder {
         }
         return decodedMessage;
 	}
-	
+
 	private void writeDecodedMessageToFile(List<String> decodedMessage) {
 		FileOutputStream fos = null;
 		File file;
 		StringBuffer sb=new StringBuffer();
 		try {
 
-			file = new File("/Users/archana.nagarajan/Documents/UF/SEM2/ADS/Project/sample1/output/decoded.txt");
+			file = new File("decoded.txt");
 			fos = new FileOutputStream(file);
 
 			// if file doesn't exists, then create it
 			if (!file.exists()) {
 				file.createNewFile();
 			}
+			int count=0;
 			for (String item : decodedMessage){
 				sb.append(item);
-				sb.append("\n");
+				if(count!=decodedMessage.size()-1)
+					sb.append("\n");
+				count++;
 			}
 			byte[] contentInBytes = sb.toString().getBytes();
 
@@ -107,10 +110,9 @@ public class decoder {
             byte[] bytes = Files.readAllBytes(path);
             for (byte b : bytes) {
                 int i = b;
-                String s = Integer.toBinaryString(i);
                 if(i<0)
                     i = 256+i;
-                s = Integer.toBinaryString(i);
+                String s = Integer.toBinaryString(i);
                 int diff = 8-s.length();
                 for(int l = 0; l<diff;l++)
                     s="0"+s;
@@ -138,24 +140,23 @@ public class decoder {
 			char ch[]=value.toCharArray();
 			for(int i=0;i<ch.length;i++){
 				switch (ch[i]){
-                case '0':
-                    if(node.getLeft()==null){
-                    	node.setLeft(new HeapNode(-1));
-                    }
-                    node = node.getLeft();
-                    break;
-                case '1':
-                    if(node.getRight()==null){
-                    	node.setRight(new HeapNode(-1));
-                    }
-                    node = node.getRight();
-                    break;
+	              case '0':
+	                  if(node.getLeft()==null){
+	                  	node.setLeft(new HeapNode(-1));
+	                  }
+	                  node = node.getLeft();
+	                  break;
+	              case '1':
+	                  if(node.getRight()==null){
+	                  	node.setRight(new HeapNode(-1));
+	                  }
+	                  node = node.getRight();
+	                  break;
 	            }
 			}
 			node.setData(Integer.parseInt(key));
-            node = root;
+	          node = root;
 		}
-	//	inorder(root);
 		return node;
 	}
 }

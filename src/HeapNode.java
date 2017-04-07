@@ -5,14 +5,14 @@ public class HeapNode {
 	private int data;
 	private HeapNode left;
 	private HeapNode right;
-	
+
 	public HeapNode(int data,int frequency,HeapNode left, HeapNode right){
 		this.frequency=frequency;
 		this.data=data;
 		this.left=left;
 		this.right=right;
 	}
-	
+
 	public HeapNode(int data){
 		this.data=data;
 	}
@@ -40,10 +40,9 @@ public class HeapNode {
 	public void setData(int data) {
 		this.data = data;
 	}
-	
+
 	public int compareTo(HeapNode node){
 	    int firstFreq = node.getFrequency();
-	
 	    if (firstFreq ==getFrequency())
 	        return 0;
 	    else if (firstFreq>getFrequency())
